@@ -1,0 +1,77 @@
+MariaDB [(none)]> source C:\Users\abdul\Desktop\assign3.sql
+Query OK, 1 row affected (0.009 sec)
+
+Database changed
+Query OK, 0 rows affected (0.376 sec)
+
+Query OK, 0 rows affected (0.555 sec)
+
+Query OK, 0 rows affected (0.244 sec)
+
+Query OK, 1 row affected (0.043 sec)
+
+Query OK, 1 row affected (0.044 sec)
+
+Query OK, 1 row affected (0.089 sec)
+
+Query OK, 1 row affected (0.110 sec)
+
+MariaDB [person]> CREATE UNIQUE INDEX index_email ON Users (email);
+Query OK, 0 rows affected (0.513 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [person]> CREATE UNIQUE INDEX user_index ON Users (username,password);
+Query OK, 0 rows affected (0.514 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [person]>  SHOW ALL INDEXES 
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'INDEXES' at line 1
+MariaDB [person]> SHOW INDEXES FROM Users;
++-------+------------+-------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+
+| Table | Non_unique | Key_name    | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment |
++-------+------------+-------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+
+| users |          0 | PRIMARY     |            1 | user_id     | A         |           4 |     NULL | NULL   |      | BTREE      |         |               |
+| users |          0 | index_email |            1 | email       | A         |           4 |     NULL | NULL   | YES  | BTREE      |         |               |
+| users |          0 | user_index  |            1 | username    | A         |           4 |     NULL | NULL   | YES  | BTREE      |         |               |
+| users |          0 | user_index  |            2 | password    | A         |           4 |     NULL | NULL   | YES  | BTREE      |         |               |
++-------+------------+-------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+
+4 rows in set (0.001 sec)
+
+MariaDB [person]> `Users` DROP INDEX  `index_email`;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '`Users` DROP INDEX  `index_email`' at line 1
+MariaDB [person]> ALTER TABLE  `Users` DROP INDEX  `index_email`;
+Query OK, 0 rows affected (0.224 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [person]> ALTER TABLE  `Users` DROP INDEX  `user_index`;
+Query OK, 0 rows affected (0.304 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+Question#5 difference between implict index and unique index?
+
+implicit indexes are created by the database server automatically when an object is created. 
+Indexes are made for primary and unique by the database server.
+A unique index is used to make sure that index key is unique and cannot be duplicated. If a unique 
+index has one column, the values in this column will be unique
+
+
+MONGODB
+QUESTION#1
+Indexes can be used to find the data and entries without searching the whole database or collection when ever a database is used. They can be made using one or more  columns of a collection of a database.
+USE:
+indexes are used when a table is many time in where clauses, or in any kind where order by is used.
+for example we take price , and we put index on  price colunmn  with order by or  (by deafult ascending order)
+db.collection.find( { $query: {}, $orderby: { price : 1 } } )
+
+QUESTION#2
+YES.
+Only key difference between mysql and mongodb ,in case of dropping the indexes is that ,in mysql you can not drop all indexes with a single commond,but if you want you have to write a script for that. the commond of mysql index example is :
+`Users` DROP INDEX  `index_email`;
+Where as we can drop the all the indexes in mongodb with a single a command with this command.
+db.collection.dropIndexes()
+QUESTION#3
+ it  returns an arrayof documents which tells about the indexes and describe the existing indexes on the collection ,in this case 'studentgrade'
+"id":1 and "name" :1  shows that , for an ascending index on a field, it specifys a value of 1.
+"v" :2 ,shows the version of 2D sphere indexes
+  
